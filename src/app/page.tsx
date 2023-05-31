@@ -3,6 +3,7 @@
 import ChatArea from '@/components/ChatArea'
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
+import SendMessage from '@/components/SendMessage'
 import { Chat } from '@/types/Chat'
 import { useState } from 'react'
 
@@ -16,6 +17,7 @@ export default function Home() {
       {id: '5', author: 'ia', body: 'Sim, tudo.'}
     ]
   })
+  const [AILoading, setAILoading] = useState(false)
 
   const closeSidebar = () => {
     setOpenSidebar(false)
@@ -28,6 +30,8 @@ export default function Home() {
   const handleNewChat = () => {
 
   }
+
+  const handleSendMessage = () => {}
 
   return (
     <main className='flex h-screen bg-gpt-gray'>
@@ -48,6 +52,8 @@ export default function Home() {
         />
 
         <ChatArea chat={chatActive}/>
+
+        <SendMessage disabled={AILoading} onSendMessage={handleSendMessage} />
       </section>
     </main>
   )

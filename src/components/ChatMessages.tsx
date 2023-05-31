@@ -13,7 +13,7 @@ export default function ChatMessages({ message }: Props) {
 
         <div
           className={`w-10 h-10 flex justify-center items-center mx-4 md:ml-0 rounded 
-          ${message.author === 'ia' ? 'bg-green-500' : 'bg-blue-500'}`}
+          ${message.author === 'ia' ? 'bg-emerald-500' : 'bg-blue-500'}`}
         >
           {message.author === 'me' && <IconUser width={24} height={24} />}
           {message.author === 'ia' && <IconRobot width={24} height={24} />}
