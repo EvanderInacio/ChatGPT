@@ -100,11 +100,35 @@ export default function Home() {
     setAILoading(true)
   }
 
-  const handleSelectChat = () => {}
+  const handleSelectChat = (id: string) => {
+    if (AILoading) {
+      return 
+    }
 
-  const handleDeleteChat = () => {}
+    let item = chatList.find(item => item.id === id)
+    if (item) {
+      setChatActiveId(item.id)
+    }
 
-  const handleEditChat = () => {}
+    closeSidebar()
+  }
+ 
+  const handleDeleteChat = (id: string) => {
+    let chatListClone = [...chatList]
+    let chatIndex = chatListClone.findIndex(item => item.id === id)
+    chatListClone.splice(chatIndex, 1)
+    setChatList(chatListClone)
+    setChatActiveId('')
+  }
+
+  const handleEditChat = (id: string, newTitle: string) => {
+    if (newTitle) {
+      let chatListClone = [...chatList]
+      let chatIndex = chatListClone.findIndex(item => item.id === id)
+      chatListClone[chatIndex].title = newTitle
+      setChatList(chatListClone)
+    }
+  }
 
   return (
     <main className={`flex h-screen ${theme ? 'bg-gpt-gray' : 'bg-gpt-dark'}`}>
