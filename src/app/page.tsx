@@ -14,6 +14,7 @@ export default function Home() {
   const [chatActiveId, setChatActiveId] = useState<string>('')
   const [chatActive, setChatActive] = useState<Chat>()
   const [AILoading, setAILoading] = useState(false)
+  const [theme, setTheme] = useState(true)
 
   useEffect(() => {
     setChatActive(chatList.find(item => item.id === chatActiveId))
@@ -21,6 +22,10 @@ export default function Home() {
 
   const closeSidebar = () => {
     setOpenSidebar(false)
+  }
+
+  const activeTheme = () => {
+    setTheme(!theme)
   }
 
   const handleClear = () => {
@@ -71,8 +76,9 @@ export default function Home() {
   }
 
   return (
-    <main className='flex h-screen bg-gpt-gray'>
+    <main className={`flex h-screen ${theme ? 'bg-gpt-gray' : 'bg-gpt-dark'}`}>
       <Sidebar
+        theme={activeTheme}
         open={openSidebar}
         onClose={closeSidebar}
         onClear={handleClear}

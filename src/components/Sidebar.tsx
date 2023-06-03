@@ -1,8 +1,7 @@
 import { ReactNode } from "react"
 import IconClose from "./icons/IconClose"
 import IconAdd from "./icons/IconAdd"
-import Profile from "./Profile"
-import IconTrash from "./icons/IconTrash"
+import Buttons from "./Buttons"
 
 interface Props {
   children: ReactNode
@@ -10,9 +9,10 @@ interface Props {
   onClose: () => void
   onClear: () => void
   onNewChat: () => void
+  theme: () => void
 }
 
-export default function Sidebar({ open, onClose, onClear, onNewChat, children }: Props) {
+export default function Sidebar({ open, onClose, onClear, theme, onNewChat, children }: Props) {
   return (
     <section className={`fixed left-0 top-0 bottom-0 text-white ${open ? 'w-screen bg-gray-600/75' : 'w-0'} md:w-64 md:static`}>
 
@@ -33,10 +33,10 @@ export default function Sidebar({ open, onClose, onClear, onNewChat, children }:
           </nav>
 
           <div className="border-t border-gray-700 pt-2">
-            <Profile 
-              icon={<IconTrash width={16} height={16}/>}
+            <Buttons 
               label="Limpar todas as conversas"
-              onClick={onClear}
+              onClear={onClear}
+              themes={theme}
             />
           </div>
         </div>

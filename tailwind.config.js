@@ -15,7 +15,8 @@ module.exports = {
       colors: {
         'gpt-gray': '#343541',
         'gpt-darkgray': '#202123',
-        'gpt-lightgray': '#40414f'
+        'gpt-lightgray': '#40414f',
+        'gpt-dark': '#0e0e12'
       },
       keyframes: {
         blink: {
