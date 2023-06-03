@@ -14,15 +14,15 @@ export default function ChatPlaceholder() {
             <IconSun width={24} height={24} className="mr-3" />
             Examples
           </div>
-          <div className="bg-white/5 rounded text-center text-sm text-white mb-3 items-center p-5 flex gap-2">
-            "Explain quantum computing in simple terms" <IconArrowRight />
+          <div className="bg-white/5 rounded text-center text-sm text-white mb-3 items-center p-5 flex gap-2 hover:bg-white/10">
+            "Explain quantum computing in simple terms" <IconArrowRight width={16} height={16}/>
           </div>
-          <div className="bg-white/5 rounded text-center text-sm text-white mb-3 items-center p-5 flex gap-2">
+          <div className="bg-white/5 rounded text-center text-sm text-white mb-3 items-center p-5 flex gap-2 hover:bg-white/10">
             "Got any creative ideas for a 10 year old’s birthday?"{' '}
-            <IconArrowRight />
+            <IconArrowRight width={16} height={16}/>
           </div>
-          <div className="bg-white/5 rounded text-center text-sm text-white mb-3 items-center p-5 flex gap-2">
-            "How do I make an HTTP request in Javascript?" <IconArrowRight />
+          <div className="bg-white/5 rounded text-center text-sm text-white mb-3 items-center p-5 flex gap-2 hover:bg-white/10">
+            "How do I make an HTTP request in Javascript?" <IconArrowRight width={16} height={16}/>
           </div>
         </div>
 

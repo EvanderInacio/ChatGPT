@@ -8,9 +8,14 @@ interface Props {
 
 export default function ChatMessages({ message }: Props) {
   return (
-    <div className={`py-5 ${message.author === 'ia' && 'bg-gray-600/50'}`}>
-      <div className="max-w-4xl m-auto flex">
-
+    <div
+      className={`my-5 px-2 text-black font-semibold grid 
+      ${message.author === 'ia' ? 'justify-start' : 'justify-end'}`}
+    >
+      <div
+        className={`p-5 max-w-xl m-auto flex rounded-md 
+        ${message.author === 'me' ? 'bg-blue-300' : 'bg-emerald-300'}`}
+      >
         <div
           className={`w-10 h-10 flex justify-center items-center mx-4 md:ml-0 rounded 
           ${message.author === 'ia' ? 'bg-emerald-500' : 'bg-blue-500'}`}
@@ -19,7 +24,7 @@ export default function ChatMessages({ message }: Props) {
           {message.author === 'ia' && <IconRobot width={24} height={24} />}
         </div>
 
-        <div className='flex-1 text-base whitespace-pre-wrap'>
+        <div className="flex-1 text-base whitespace-pre-wrap break-all">
           {message.body}
         </div>
       </div>

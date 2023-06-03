@@ -10,7 +10,7 @@ interface Props {
 
 export default function ChatArea({ chat, loading }: Props) {
   return (
-    <section className="flex-auto h-0 overflow-y-scroll">
+    <section className="flex-auto h-0 overflow-y-scroll px-5">
       {!chat && <ChatPlaceholder />}
       {chat &&
         chat.messages.map(message => (

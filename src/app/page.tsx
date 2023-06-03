@@ -7,6 +7,7 @@ import SendMessage from '@/components/SendMessage'
 import { Chat } from '@/types/Chat'
 import { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import SidebarChat from '@/components/SidebarChat'
 
 export default function Home() {
   const [openSidebar, setOpenSidebar] = useState(false)
@@ -19,6 +20,30 @@ export default function Home() {
   useEffect(() => {
     setChatActive(chatList.find(item => item.id === chatActiveId))
   }, [chatActiveId, chatList])
+
+  useEffect(() => {
+    if (AILoading) {
+      getResponseIA()
+    }
+  }, [AILoading])
+
+  const getResponseIA = () => {
+    setTimeout(() => {
+      let chatListClone = [...chatList]
+      let chatIndex = chatListClone.findIndex(item => item.id === chatActiveId)
+
+      if(chatIndex > -1) {
+        chatListClone[chatIndex].messages.push({
+          id: uuidv4(),
+          author: 'ia',
+          body: 'mensagem do IA :)'
+        })
+      }
+
+      setChatList(chatListClone)
+      setAILoading(false)
+    }, 2000)
+  }
 
   const closeSidebar = () => {
     setOpenSidebar(false)
@@ -75,6 +100,12 @@ export default function Home() {
     setAILoading(true)
   }
 
+  const handleSelectChat = () => {}
+
+  const handleDeleteChat = () => {}
+
+  const handleEditChat = () => {}
+
   return (
     <main className={`flex h-screen ${theme ? 'bg-gpt-gray' : 'bg-gpt-dark'}`}>
       <Sidebar
@@ -84,16 +115,25 @@ export default function Home() {
         onClear={handleClear}
         onNewChat={handleNewChat}
       >
-        ...
+        {chatList.map(list => (
+          <SidebarChat 
+            key={list.id}
+            chatList={list}
+            active={list.id === chatActiveId}
+            onClick={handleSelectChat}
+            onDelete={handleDeleteChat}
+            onEdit={handleEditChat}
+          />
+        ))}
       </Sidebar>
 
       <section className='flex flex-col w-full'>
         <Header 
-          title={`Bla Bla`}
+          title={chatActive ? chatActive.title : 'Nova conversa'}
           newChatClick={handleNewChat}
           openSidebarClick={() => setOpenSidebar(true)}
         />
-
+      
         <ChatArea chat={chatActive} loading={AILoading} />
 
         <SendMessage disabled={AILoading} onSendMessage={handleSendMessage} />
