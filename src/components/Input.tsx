@@ -34,7 +34,7 @@ export default function Input({ disabled, onSend }: Props) {
 
   return (
     <div
-      className={`flex w-full border border-gray-800/50 bg-gpt-lightgray p-4 rounded-md
+      className={`flex w-full border border-gray-800/50 bg-gpt-lightgray p-2 rounded-md
       ${disabled && 'opacity-50'} items-center `}
     >
       <textarea
