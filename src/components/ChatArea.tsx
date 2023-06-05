@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react'
 import { Chat } from '@/types/Chat'
 import ChatPlaceholder from './ChatPlaceholder'
 import ChatMessages from './ChatMessages'
@@ -9,6 +10,12 @@ interface Props {
 }
 
 export default function ChatArea({ chat, loading }: Props) {
+  const scrollArea = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    scrollArea.current?.scrollTo(0, scrollArea.current?.scrollHeight)
+  }, [loading, chat?.messages.length])
+
   return (
     <section className="flex-auto h-0 overflow-y-scroll px-5">
       {!chat && <ChatPlaceholder />}
@@ -16,7 +23,7 @@ export default function ChatArea({ chat, loading }: Props) {
         chat.messages.map(message => (
           <ChatMessages key={message.id} message={message} />
         ))}
-        {loading && <LoadingMessage />}
+      {loading && <LoadingMessage />}
     </section>
   )
 }

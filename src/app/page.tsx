@@ -8,6 +8,7 @@ import { Chat } from '@/types/Chat'
 import { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import SidebarChat from '@/components/SidebarChat'
+import { openai } from '@/api/openai'
 
 export default function Home() {
   const [openSidebar, setOpenSidebar] = useState(false)
@@ -27,22 +28,27 @@ export default function Home() {
     }
   }, [AILoading])
 
-  const getResponseIA = () => {
-    setTimeout(() => {
-      let chatListClone = [...chatList]
-      let chatIndex = chatListClone.findIndex(item => item.id === chatActiveId)
+  const getResponseIA = async () => {
+    let chatListClone = [...chatList]
+    let chatIndex = chatListClone.findIndex(item => item.id === chatActiveId)
 
-      if(chatIndex > -1) {
+    if (chatIndex > -1) {
+      const translated = openai.translateMessage(
+        chatListClone[chatIndex].messages
+      )
+      const response = await openai.generate(translated)
+
+      if (response) {
         chatListClone[chatIndex].messages.push({
           id: uuidv4(),
           author: 'ia',
-          body: 'mensagem do IA :)'
+          body: response
         })
       }
+    }
 
-      setChatList(chatListClone)
-      setAILoading(false)
-    }, 2000)
+    setChatList(chatListClone)
+    setAILoading(false)
   }
 
   const closeSidebar = () => {
@@ -54,7 +60,7 @@ export default function Home() {
   }
 
   const handleClear = () => {
-    if(AILoading) {
+    if (AILoading) {
       return
     }
 
@@ -63,7 +69,7 @@ export default function Home() {
   }
 
   const handleNewChat = () => {
-    if(AILoading) {
+    if (AILoading) {
       return
     }
 
@@ -72,16 +78,17 @@ export default function Home() {
   }
 
   const handleSendMessage = (message: string) => {
-    if(!chatActiveId) {
-      // Creating new chat 
+    if (!chatActiveId) {
+      // Creating new chat
       let newChatId = uuidv4()
-      setChatList([{
-        id: newChatId,
-        title: message,
-        messages: [
-          { id: uuidv4(), author: 'me', body: message }
-        ]
-      }, ...chatList])
+      setChatList([
+        {
+          id: newChatId,
+          title: message,
+          messages: [{ id: uuidv4(), author: 'me', body: message }]
+        },
+        ...chatList
+      ])
 
       setChatActiveId(newChatId)
     } else {
@@ -90,7 +97,7 @@ export default function Home() {
       let chatIndex = chatListClone.findIndex(item => item.id === chatActiveId)
       chatListClone[chatIndex].messages.push({
         id: uuidv4(),
-        author: 'me', 
+        author: 'me',
         body: message
       })
 
@@ -102,7 +109,7 @@ export default function Home() {
 
   const handleSelectChat = (id: string) => {
     if (AILoading) {
-      return 
+      return
     }
 
     let item = chatList.find(item => item.id === id)
@@ -112,7 +119,7 @@ export default function Home() {
 
     closeSidebar()
   }
- 
+
   const handleDeleteChat = (id: string) => {
     let chatListClone = [...chatList]
     let chatIndex = chatListClone.findIndex(item => item.id === id)
@@ -140,7 +147,7 @@ export default function Home() {
         onNewChat={handleNewChat}
       >
         {chatList.map(list => (
-          <SidebarChat 
+          <SidebarChat
             key={list.id}
             chatList={list}
             active={list.id === chatActiveId}
@@ -151,13 +158,13 @@ export default function Home() {
         ))}
       </Sidebar>
 
-      <section className='flex flex-col w-full'>
-        <Header 
+      <section className="flex flex-col w-full">
+        <Header
           title={chatActive ? chatActive.title : 'Nova conversa'}
           newChatClick={handleNewChat}
           openSidebarClick={() => setOpenSidebar(true)}
         />
-      
+
         <ChatArea chat={chatActive} loading={AILoading} />
 
         <SendMessage disabled={AILoading} onSendMessage={handleSendMessage} />
