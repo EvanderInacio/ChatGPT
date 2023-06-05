@@ -29,26 +29,26 @@ export default function Home() {
   }, [AILoading])
 
   const getResponseIA = async () => {
-    let chatListClone = [...chatList]
-    let chatIndex = chatListClone.findIndex(item => item.id === chatActiveId)
+    setTimeout(() => {
+      let chatListClone = [...chatList]
+      let chatIndex = chatListClone.findIndex(item => item.id === chatActiveId)
 
-    if (chatIndex > -1) {
-      const translated = openai.translateMessage(
-        chatListClone[chatIndex].messages
-      )
-      const response = await openai.generate(translated)
-
-      if (response) {
+      if (chatIndex > -1) {
         chatListClone[chatIndex].messages.push({
           id: uuidv4(),
           author: 'ia',
-          body: response
+          body: 'ChatGPT é incapaz de responder essa mensagem! :('
         })
-      }
-    }
 
-    setChatList(chatListClone)
-    setAILoading(false)
+        // const translated = openai.translateMessage(
+        //     chatListClone[chatIndex].messages
+        //   )
+        //   const response = await openai.generate(translated)
+      }
+
+      setChatList(chatListClone)
+      setAILoading(false)
+    }, 3000)
   }
 
   const closeSidebar = () => {
